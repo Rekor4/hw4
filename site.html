@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>web-game by Yegor Miskel</title>
+</head>
+<body>
+<script>
+    let compCounter = 0
+    let yourCounter = 0
+
+    const enterYourName = () => {
+        let yourName = prompt('Please, enter your name')
+        if (yourName === '' || yourName === null) {
+            yourName = ('user')
+        }
+        alert('Hello ' + yourName.trim())
+        return yourName.trim()
+    };
+
+    const name = enterYourName();
+
+    let cancel = false
+
+    const startGame = (yourName, compMove) => {
+        let yourMove = prompt('Rock, Scissors, Paper... Please make your move')
+        if (yourMove === null) {
+            cancel = true
+            alert('You aborted this game. To start new game just refresh the page.')
+            return
+        }
+        yourMove = yourMove.toLowerCase()
+        // paper
+        if (yourMove === 'paper' && compMove === 'scissors') {
+            confirm('Computer move is: ' + compMove)
+            compCounter++
+            alert(`Computer won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+        } else if (yourMove === 'paper' && compMove === 'paper') {
+            confirm('Computer move is: ' + compMove)
+            startGame(yourName, randomizer());
+        } else if (yourMove === 'paper' && compMove === 'rock') {
+            confirm('Computer move is: ' + compMove)
+            yourCounter++
+            alert(`You won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+            // scissors
+        } else if (yourMove === 'scissors' && compMove === 'scissors') {
+            confirm('Computer move is: ' + compMove)
+            startGame(yourName, randomizer());
+        } else if (yourMove === 'scissors' && compMove === 'paper') {
+            confirm('Computer move is: ' + compMove)
+            yourCounter++
+            alert(`You won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+        } else if (yourMove === 'scissors' && compMove === 'rock') {
+            confirm('Computer move is: ' + compMove)
+            compCounter++
+            alert(`Computer won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+
+            // rock
+        } else if (yourMove === 'rock' && compMove === 'scissors') {
+            confirm('Computer move is: ' + compMove)
+            yourCounter++
+            alert(`You won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+        } else if (yourMove === 'rock' && compMove === 'paper') {
+            confirm('Computer move is: ' + compMove)
+            compCounter++
+            alert(`Computer won this round: Current count is ${yourName} : ${yourCounter}  : Computer ${compCounter}`)
+        } else if (yourMove === 'rock' && compMove === 'rock') {
+            confirm('Computer move is: ' + compMove)
+            startGame(yourName, randomizer());
+        } else if (yourMove !== 'paper' && yourMove !== 'scissors' && yourMove !== 'rock' ) {
+            startGame(yourName, randomizer());
+        }
+    };
+
+    const randomizer = () => {
+        let ex = Math.random();
+        let compMove
+        if (ex < 0.3) {
+            compMove = 'paper'
+        } else if (0.3 <= ex && ex < 0.6) {
+            compMove = 'scissors'
+        } else if (0.6 <= ex && ex < 1) {
+            compMove = 'rock'
+        } return compMove
+    };
+
+    do {
+        compCounter = 0
+        yourCounter = 0
+        while (yourCounter < 3 && compCounter < 3 && !cancel) {
+            startGame(name, randomizer());
+        }
+        if (compCounter === 3) {
+            alert(`Sorry. You lost this game. Count - You : ${yourCounter} : Computer :  ${compCounter}`)
+        } else if (yourCounter === 3){
+            alert(`Congratulations. You won this game. Count - You : ${yourCounter} : Computer : ${compCounter}`)
+        } else {
+            break
+        }
+    } while (confirm('Do you want to start new game?'))
+
+</script>
+</body>
+</html>
